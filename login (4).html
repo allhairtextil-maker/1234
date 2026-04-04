@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALL HAIR — Acesso</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:#0f172a;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Sans',system-ui,sans-serif;padding:20px;
+  background-image:radial-gradient(ellipse at 20% 50%,rgba(245,158,11,0.08) 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 20%,rgba(59,130,246,0.06) 0%,transparent 50%);
+}
+.box{
+  background:#fff;border-radius:20px;padding:40px 36px;width:100%;max-width:420px;
+  box-shadow:0 40px 80px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.05);
+}
+.logo-wrap{display:flex;align-items:center;gap:14px;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid #f1f5f9;}
+.logo-wrap img{height:44px;width:auto;}
+.logo-text h1{font-size:18px;font-weight:700;color:#0f172a;letter-spacing:-.3px;}
+.logo-text p{font-size:12px;color:#94a3b8;font-weight:400;margin-top:2px;}
+h2{font-size:22px;font-weight:700;color:#0f172a;margin-bottom:6px;}
+.sub{font-size:14px;color:#64748b;margin-bottom:24px;}
+.users{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;}
+.u{
+  padding:16px 12px;border:2px solid #e2e8f0;border-radius:12px;
+  cursor:pointer;text-align:center;transition:all .2s;background:#f8fafc;
+}
+.u:hover{border-color:#f59e0b;background:#fffbeb;}
+.u.s{border-color:#f59e0b;background:#fffbeb;box-shadow:0 0 0 3px rgba(245,158,11,0.12);}
+.av{
+  width:44px;height:44px;border-radius:50%;margin:0 auto 10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:700;color:#fff;
+}
+.un{font-size:13.5px;font-weight:700;color:#0f172a;}
+.pin-section{margin-bottom:16px;}
+.pin-label{font-size:12px;font-weight:600;color:#64748b;margin-bottom:7px;display:block;}
+.pin-input{
+  width:100%;padding:13px;border:2px solid #e2e8f0;border-radius:10px;
+  font-family:inherit;font-size:22px;font-weight:700;text-align:center;
+  letter-spacing:10px;outline:none;background:#f8fafc;transition:all .2s;
+}
+.pin-input:focus{border-color:#f59e0b;background:#fff;box-shadow:0 0 0 3px rgba(245,158,11,0.12);}
+.first-access{
+  background:#fffbeb;border:1px solid #fde68a;border-radius:10px;
+  padding:12px 16px;font-size:13px;font-weight:500;color:#92400e;
+  margin-bottom:16px;text-align:center;
+}
+.btn-enter{
+  width:100%;padding:14px;
+  background:#f59e0b;color:#fff;border:none;border-radius:10px;
+  font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;
+  box-shadow:0 4px 14px rgba(245,158,11,0.4);transition:all .2s;
+}
+.btn-enter:hover{background:#e08d00;transform:translateY(-1px);}
+.erro{
+  background:#fee2e2;color:#dc2626;border-radius:8px;
+  padding:10px 14px;font-size:13px;font-weight:600;
+  text-align:center;margin-bottom:12px;display:none;
+}
+</style>
+<script src="./db.js"></script>
+</head>
+<body>
+
+<script>
+// Firebase sync intercept - transparente para o código existente
+(function() {
+  const _origSetItem = localStorage.setItem.bind(localStorage);
+  const _origGetItem = localStorage.getItem.bind(localStorage);
+  
+  localStorage.setItem = function(key, value) {
+    _origSetItem(key, value);
+    // Sync to Firebase if key starts with allhair_
+    if (key.startsWith('allhair_') && window.DB) {
+      const chave = key.replace('allhair_', '');
+      try {
+        const dados = JSON.parse(value);
+        window.DB.set(chave, dados);
+      } catch(e) {}
+    }
+  };
+  
+  // On page load, sync from Firebase to localStorage
+  window.addEventListener('firebase-ready', async function() {
+    if (!window.DB || !window.DB.isReady()) return;
+    const chaves = [
+      'pedidos','clientes','fornecedores2','compras',
+      'produtos','cores','embalagens','estoque_v2',
+      'producoes2','envios_v2','faccionistas','movimentos',
+      'recebimentos','pagamentos','despesas','socios',
+      'socios_mov','leads','config','caixa','pins','usuarios'
+    ];
+    for (const chave of chaves) {
+      try {
+        const dados = await window.DB.get(chave);
+        if (dados !== null) {
+          _origSetItem('allhair_' + chave, JSON.stringify(dados));
+        }
+      } catch(e) {}
+    }
+    // Re-render page if function exists
+    if (typeof init === 'function') init();
+    else if (typeof render === 'function') render();
+  });
+})();
+</script>
+<div class="box">
+  <div class="logo-wrap">
+    <img src="./logo.png" alt="ALL HAIR">
+    <div class="logo-text">
+      <h1>ALL HAIR</h1>
+      <p>Sistema de Gestão Industrial</p>
+    </div>
+  </div>
+  <h2>Bem-vindo</h2>
+  <div class="sub">Selecione seu usuário para continuar</div>
+  <div class="users" id="users"></div>
+  <div id="pin-area"></div>
+  <div class="erro" id="erro"></div>
+  <button class="btn-enter" onclick="entrar()">Entrar</button>
+</div>
+<script>
+const US=[
+  {id:'gabriel',nome:'Gabriel',cor:'#f59e0b',role:'admin'},
+  {id:'caio',   nome:'Caio',   cor:'#8b5cf6',role:'admin'},
+  {id:'andre',  nome:'André',  cor:'#3b82f6',role:'viewer'},
+  {id:'felipe', nome:'Felipe', cor:'#10b981',role:'viewer'},
+];
+let sel=null;
+let pins=JSON.parse(localStorage.getItem('allhair_pins')||'{}');
+
+function draw(){
+  document.getElementById('users').innerHTML=US.map(u=>
+    `<div class="u${sel&&sel.id===u.id?' s':''}" onclick="pick('${u.id}')">
+      <div class="av" style="background:${u.cor}">${u.nome[0]}</div>
+      <div class="un">${u.nome}</div>
+    </div>`).join('');
+}
+
+function pick(id){
+  sel=US.find(u=>u.id===id);
+  draw();
+  const area=document.getElementById('pin-area');
+  if(pins[sel.id]){
+    area.innerHTML=`<div class="pin-section"><label class="pin-label">PIN de acesso</label>
+      <input type="password" class="pin-input" id="pin" maxlength="6" placeholder="· · · ·"
+        onkeydown="if(event.key==='Enter')entrar()"></div>`;
+    document.getElementById('pin').focus();
+  } else {
+    area.innerHTML=`<div class="first-access">Primeiro acesso — clique em Entrar para continuar</div>`;
+  }
+}
+
+function showErro(m){
+  const e=document.getElementById('erro');
+  e.textContent=m;e.style.display='block';
+  setTimeout(()=>e.style.display='none',3000);
+  const p=document.getElementById('pin');if(p)p.value='';
+}
+
+function entrar(){
+  if(!sel){showErro('Selecione seu usuário!');return;}
+  const p=document.getElementById('pin');
+  const pin=p?p.value:'';
+  if(pins[sel.id]&&pins[sel.id]!==pin){showErro('PIN incorreto.');return;}
+  localStorage.setItem('allhair_sessao',JSON.stringify({
+    userId:sel.id,nome:sel.nome,role:sel.role,cor:sel.cor,
+    loginEm:new Date().toLocaleString('pt-BR')
+  }));
+  location.href='dashboard.html';
+}
+draw();
+</script>
+</body>
+</html>
