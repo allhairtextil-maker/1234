@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ALL HAIR — CRM / Prospeccao</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+:root {
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
+  --accent: #f59e0b;
+  --accent2: #3b82f6;
+  --sidebar: #0f172a;
+  --text: #0f172a;
+  --text2: #64748b;
+  --text3: #94a3b8;
+  --green: #10b981;
+  --green-light: #d1fae5;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --orange: #f97316;
+  --orange-light: #ffedd5;
+  --blue: #3b82f6;
+  --blue-light: #dbeafe;
+  --yellow: #f59e0b;
+  --yellow-light: #fef3c7;
+  --pink: #ec4899;
+  --pink-light: #fce7f3;
+  --purple: #8b5cf6;
+  --purple-light: #ede9fe;
+  --teal: #14b8a6;
+  --teal-light: #ccfbf1;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 240px;
+  background: var(--sidebar);
+  display: flex; flex-direction: column;
+  z-index: 200;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+.sb-header {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex; align-items: center; gap: 12px;
+}
+.sb-header img { height: 38px; width: auto; object-fit: contain; }
+.sb-brand { display: flex; flex-direction: column; }
+.sb-brand-name { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: -.3px; }
+.sb-brand-sub { font-size: 11px; color: rgba(255,255,255,0.3); font-weight: 400; margin-top: 1px; }
+.sb-nav { flex: 1; padding: 12px 10px; display: flex; flex-direction: column; gap: 1px; overflow-y: auto; }
+.sb-nav::-webkit-scrollbar { width: 4px; }
+.sb-nav::-webkit-scrollbar-track { background: transparent; }
+.sb-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+.sb-section { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.25); letter-spacing: 1px; text-transform: uppercase; padding: 14px 12px 5px; }
+.sb-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px;
+  color: rgba(255,255,255,0.45);
+  font-size: 13.5px; font-weight: 500;
+  text-decoration: none;
+  transition: all .15s;
+}
+.sb-link:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.85); }
+.sb-link.active {
+  background: rgba(245,158,11,0.15);
+  color: #fbbf24;
+  border-left: 3px solid #f59e0b;
+  padding-left: 9px;
+}
+.sb-icon { width: 20px; text-align: center; font-size: 15px; flex-shrink: 0; opacity: .7; }
+.sb-link.active .sb-icon { opacity: 1; }
+.sb-footer {
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.sb-user {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+}
+.sb-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: linear-gradient(135deg,#f59e0b,#ec4899);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.sb-user-info { flex: 1; min-width: 0; }
+.sb-user-name { font-size: 13px; font-weight: 600; color: #fff; }
+.sb-user-status { font-size: 10px; color: rgba(255,255,255,0.3); display: flex; align-items: center; gap: 4px; }
+.sb-user-status::before { content: ''; width: 6px; height: 6px; background: #10b981; border-radius: 50%; display: inline-block; }
+.sb-time-box { text-align: center; }
+.sb-time { font-size: 22px; font-weight: 700; color: #fff; font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+.sb-date-text { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
+/* ─── MAIN ─── */
+.main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: var(--shadow);
+}
+.tb-left { display: flex; align-items: center; gap: 8px; }
+.tb-back { color: var(--text3); text-decoration: none; font-size: 13px; font-weight: 500; }
+.tb-back:hover { color: var(--text2); }
+.tb-sep { color: var(--border2); }
+.tb-title { font-size: 16px; font-weight: 700; color: var(--text); }
+.tb-right { display: flex; align-items: center; gap: 12px; }
+.tb-datetime { text-align: right; }
+.tb-time { font-size: 15px; font-weight: 700; color: var(--text); font-family: 'DM Mono', monospace; }
+.tb-date { font-size: 11px; color: var(--text3); font-weight: 400; }
+.page-content { padding: 24px 28px; flex: 1; }
+
+/* ─── COMPONENTS ─── */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  cursor: pointer; border: none; transition: all .15s;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(245,158,11,0.35); }
+.btn-primary:hover { background: #e08d00; transform: translateY(-1px); }
+.btn-secondary { background: var(--white); color: var(--text2); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-success { background: var(--green); color: #fff; }
+.btn-success:hover { background: #059669; }
+.btn-sm { padding: 6px 12px; font-size: 12.5px; }
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.card-body { padding: 20px; }
+.card-link { font-size: 12.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+.card-link:hover { color: #e08d00; }
+
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 600;
+}
+.badge-green { background: var(--green-light); color: #059669; }
+.badge-red { background: var(--red-light); color: #dc2626; }
+.badge-orange { background: var(--orange-light); color: #ea580c; }
+.badge-yellow { background: var(--yellow-light); color: #d97706; }
+.badge-blue { background: var(--blue-light); color: #2563eb; }
+.badge-gray { background: #f1f5f9; color: #64748b; }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 12px; font-weight: 600; color: var(--text2); }
+.field input, .field select, .field textarea {
+  background: #f8fafc; border: 1.5px solid var(--border);
+  color: var(--text); padding: 9px 13px;
+  border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 13.5px; font-weight: 400;
+  outline: none; transition: all .15s; width: 100%;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--accent); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+}
+.field textarea { resize: vertical; min-height: 70px; }
+.field-hint { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-full { grid-column: 1/-1; }
+
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .8px;
+  text-transform: uppercase; color: var(--accent);
+  margin: 20px 0 12px; padding-bottom: 8px;
+  border-bottom: 2px solid #fef3c7;
+}
+.section-label:first-child { margin-top: 0; }
+
+table { width: 100%; border-collapse: collapse; }
+th {
+  padding: 10px 16px; text-align: left;
+  font-size: 11px; font-weight: 600; letter-spacing: .5px;
+  text-transform: uppercase; color: var(--text3);
+  background: #f8fafc; border-bottom: 1px solid var(--border);
+}
+td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13.5px; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: #fffbeb; }
+
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,23,42,0.6); backdrop-filter: blur(4px);
+  z-index: 300; display: none; align-items: flex-start;
+  justify-content: center; padding: 24px 16px; overflow-y: auto;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; width: 100%; max-width: 560px;
+  animation: slideUp .2s ease; margin: auto;
+  box-shadow: var(--shadow-lg);
+}
+@keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.modal-header {
+  padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; background: var(--white); z-index: 10;
+}
+.modal-header h2 { font-size: 17px; font-weight: 700; }
+.modal-close {
+  width: 32px; height: 32px; background: #f1f5f9;
+  border: 1px solid var(--border); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--text2); cursor: pointer;
+}
+.modal-close:hover { background: var(--red-light); border-color: var(--red); color: var(--red); }
+.modal-body { padding: 22px 24px; }
+.modal-footer {
+  padding: 16px 24px; border-top: 1px solid var(--border);
+  display: flex; justify-content: flex-end; gap: 10px;
+  background: #f8fafc; border-radius: 0 0 16px 16px;
+}
+
+.tabs-bar {
+  display: flex; gap: 2px; padding: 0 28px;
+  background: var(--white); border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.tab {
+  padding: 13px 16px; font-size: 13px; font-weight: 600;
+  color: var(--text2); border-bottom: 3px solid transparent;
+  margin-bottom: -1px; cursor: pointer; white-space: nowrap;
+  transition: all .15s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+main { padding: 24px 28px; }
+.topbar-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.page-title { font-size: 21px; font-weight: 700; letter-spacing: -.5px; }
+.spacer { flex: 1; }
+.empty { padding: 48px; text-align: center; color: var(--text3); font-size: 13px; }
+
+/* TABS content */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+@media(max-width:900px) {
+  .sidebar { width: 56px; }
+  .sb-header .sb-brand, .sb-section, .sb-link span:not(.sb-icon),
+  .sb-footer .sb-user-info, .sb-date-text, .sb-brand-sub { display: none; }
+  .sb-header { padding: 14px 8px; justify-content: center; }
+  .sb-link { padding: 9px; justify-content: center; }
+  .sb-icon { margin: 0; }
+  .sb-user { justify-content: center; }
+  .sb-user-info { display: none; }
+  .sb-time { font-size: 13px; }
+  .main { margin-left: 56px; }
+  .page-content, main { padding: 16px; }
+  .topbar { padding: 0 16px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .tabs-bar { padding: 0 16px; }
+}
+
+
+@media(max-width:768px){.sidebar{display:none!important;}.main{margin-left:0!important;padding-bottom:70px;}#mn{display:flex!important;}.topbar{padding:0 14px!important;height:52px!important;}.tb-datetime{display:none!important;}.page-content,main{padding:14px!important;}.form-grid{grid-template-columns:1fr!important;}}@media(min-width:769px){#mn{display:none!important;}}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sb-header">
+    <img src="./logo.png" alt="ALL HAIR">
+    <div class="sb-brand">
+      <span class="sb-brand-name">ALL HAIR</span>
+      <span class="sb-brand-sub">Gestão Industrial</span>
+    </div>
+  </div>
+  <nav class="sb-nav"><div class="sb-section">Principal</div><a class="sb-link" href="dashboard.html"><span class="sb-icon">⊞</span><span>Início</span></a><a class="sb-link" href="pedidos.html"><span class="sb-icon">◫</span><span>Pedidos</span></a><a class="sb-link" href="producao.html"><span class="sb-icon">◈</span><span>Produção</span></a><a class="sb-link" href="estoque.html"><span class="sb-icon">◧</span><span>Estoque</span></a><a class="sb-link" href="financeiro.html"><span class="sb-icon">◉</span><span>Financeiro</span></a><a class="sb-link" href="socios.html"><span class="sb-icon">◎</span><span>Sócios</span></a><div class="sb-section">Vendas</div><a class="sb-link active" href="crm.html"><span class="sb-icon">◐</span><span>CRM</span></a><a class="sb-link" href="clientes.html"><span class="sb-icon">◑</span><span>Clientes</span></a><a class="sb-link" href="representantes.html"><span class="sb-icon">◒</span><span>Representantes</span></a><div class="sb-section">Cadastros</div><a class="sb-link" href="fornecedores.html"><span class="sb-icon">◓</span><span>Fornecedores</span></a><a class="sb-link" href="produtos.html"><span class="sb-icon">◔</span><span>Produtos</span></a><div class="sb-section">Sistema</div><a class="sb-link" href="melhorias.html"><span class="sb-icon">◕</span><span>Melhorias</span></a><a class="sb-link" href="configuracoes.html"><span class="sb-icon">◖</span><span>Config</span></a><a class="sb-link" href="empresa.html"><span class="sb-icon">◗</span><span>Empresa</span></a><a class="sb-link" href="backup.html"><span class="sb-icon">◘</span><span>Backup</span></a><a class="sb-link" href="login.html" onclick="localStorage.removeItem('allhair_sessao')"><span class="sb-icon">→</span><span>Sair</span></a></nav>
+  <div class="sb-footer">
+    <div class="sb-user" id="sb-user"></div>
+    <div class="sb-time-box">
+      <div class="sb-time" id="sb-time">--:--:--</div>
+      <div class="sb-date-text" id="sb-date"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const sess=JSON.parse(localStorage.getItem('allhair_sessao')||'{}');
+  if(!sess.userId&&!location.pathname.includes('login')){location.href='login.html';return;}
+  const u=document.getElementById('sb-user');
+  if(u&&sess.nome)u.innerHTML=`<div class="sb-avatar">${sess.nome[0]}</div><div class="sb-user-info"><div class="sb-user-name">${sess.nome}</div><div class="sb-user-status">Online</div></div>`;
+  function tick(){
+    const n=new Date();
+    const t=document.getElementById('sb-time');
+    const d=document.getElementById('sb-date');
+    const tb=document.getElementById('tb-time');
+    const td=document.getElementById('tb-date');
+    if(t)t.textContent=n.toLocaleTimeString('pt-BR');
+    if(d)d.textContent=n.toLocaleDateString('pt-BR',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+    if(tb)tb.textContent=n.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    if(td)td.textContent=n.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    setTimeout(tick,1000);
+  }
+  tick();
+})();
+</script>
+<div class="main">
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-title">CRM / Prospeccao</div>
+  </div>
+  <div class="tb-right">
+    <div class="tb-datetime">
+      <div class="tb-time" id="tb-time">--:--</div>
+      <div class="tb-date" id="tb-date"></div>
+    </div>
+  </div>
+</div>
+<div class="page-content">
+<div class="tabs-bar">
+  <div class="tab active" onclick="switchTab('funil')">Funil <span id="tc-funil" style="background:var(--bg);color:var(--text2);font-size:11px;font-weight:700;padding:1px 7px;border-radius:20px">0</span></div>
+  <div class="tab" onclick="switchTab('alertas')">Alertas <span id="tc-alertas" style="background:var(--bg);color:var(--text2);font-size:11px;font-weight:700;padding:1px 7px;border-radius:20px">0</span></div>
+  <div class="tab" onclick="switchTab('indicadores')">Indicadores</div>
+  <div class="tab" onclick="switchTab('perdidos')">Perdidos <span id="tc-perd" style="background:var(--bg);color:var(--text2);font-size:11px;font-weight:700;padding:1px 7px;border-radius:20px">0</span></div>
+</div>
+<div class="tab-content active" id="tab-funil"><main>
+<div class="topbar-actions" style="margin-bottom:16px"><div class="page-title">Funil de Prospeccao</div><div class="spacer"></div><button class="btn btn-primary" onclick="openLead()">+ Novo Lead</button></div>
+<div id="kpi-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px"></div>
+<div id="funil-board" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"></div>
+</main></div>
+<div class="tab-content" id="tab-alertas"><main>
+<div class="topbar-actions" style="margin-bottom:16px"><div class="page-title">Leads Precisando de Atencao</div></div>
+<div id="alertas-wrap"></div>
+<div id="empty-alertas" class="empty" style="display:none">Nenhum lead atrasado.</div>
+</main></div>
+<div class="tab-content" id="tab-indicadores"><main>
+<div class="topbar-actions" style="margin-bottom:16px"><div class="page-title">Indicadores de Prospeccao</div></div>
+<div id="ind-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px"></div>
+</main></div>
+<div class="tab-content" id="tab-perdidos"><main>
+<div class="topbar-actions" style="margin-bottom:16px"><div class="page-title">Leads Perdidos</div></div>
+<div id="perdidos-wrap"></div>
+<div id="empty-perdidos" class="empty" style="display:none">Nenhum lead perdido.</div>
+</main></div>
+<div class="overlay" id="overlay-lead" onclick="if(event.target.id==='overlay-lead')closeLead()">
+<div class="modal" style="max-width:680px"><div class="modal-header"><h2 id="lead-title">Novo Lead</h2><button class="modal-close" onclick="closeLead()">&#215;</button></div>
+<div class="modal-body">
+<div class="section-label">Empresa</div>
+<div class="form-grid">
+<div class="field form-full"><label>Nome da empresa *</label><input type="text" id="l-nome" placeholder="Ex: Salao Beleza Fina"></div>
+<div class="field"><label>Tipo de negocio</label><select id="l-tipo"><option value="cosmeticos">Loja de cosmeticos</option><option value="utilidades">Loja de utilidades</option><option value="representacao">Representacao</option><option value="salao">Salao de beleza</option><option value="atacado">Atacado/Distribuidora</option><option value="ecommerce">E-commerce</option><option value="outro">Outro</option></select></div>
+<div class="field"><label>Canal de origem</label><select id="l-canal"><option value="ativo">Prospeccao ativa</option><option value="indicacao">Indicacao</option><option value="representante">Representante</option><option value="rede_social">Rede social</option></select></div>
+<div class="field"><label>Cidade / Estado</label><input type="text" id="l-cidade" placeholder="Ex: Sao Paulo / SP"></div>
+<div class="field"><label>Contato</label><input type="text" id="l-contato"></div>
+<div class="field"><label>WhatsApp</label><input type="text" id="l-wpp"></div>
+</div>
+<div class="section-label">Prospeccao</div>
+<div class="form-grid">
+<div class="field"><label>Responsavel *</label><select id="l-resp"><option value="">Selecionar</option></select></div>
+<div class="field"><label>Etapa</label><select id="l-etapa"><option value="prospeccao">Prospeccao</option><option value="abordagem">Abordagem</option><option value="amostra">Amostra Enviada</option><option value="negociacao">Negociacao</option></select></div>
+<div class="field"><label>Primeiro contato</label><input type="date" id="l-data"></div>
+<div class="field"><label>Proximo follow-up</label><input type="date" id="l-followup"></div>
+<div class="field form-full"><label>Observacoes</label><textarea id="l-obs" rows="2"></textarea></div>
+</div></div>
+<div class="modal-footer"><button class="btn btn-secondary" onclick="closeLead()">Cancelar</button><button class="btn btn-primary" onclick="salvarLead()">Salvar Lead</button></div>
+</div></div>
+<div class="overlay" id="overlay-det" onclick="if(event.target.id==='overlay-det')closeDet()">
+<div class="modal"><div class="modal-header"><div><h2 id="det-nome"></h2><div id="det-badges" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div></div><button class="modal-close" onclick="closeDet()">&#215;</button></div>
+<div class="modal-body" id="det-body"></div>
+<div class="modal-footer" id="det-footer"></div>
+</div></div>
+</div>
+</div>
+<nav id="mn" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid rgba(255,255,255,0.08);z-index:200;padding:6px 0;">
+<a href="dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;color:rgba(255,255,255,0.45);font-size:10px;font-weight:600;padding:6px 2px;"><span style="font-size:18px">⊞</span>Inicio</a>
+<a href="pedidos.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;color:rgba(255,255,255,0.45);font-size:10px;font-weight:600;padding:6px 2px;"><span style="font-size:18px">◫</span>Pedidos</a>
+<a href="producao.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;color:rgba(255,255,255,0.45);font-size:10px;font-weight:600;padding:6px 2px;"><span style="font-size:18px">◈</span>Prod.</a>
+<a href="financeiro.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;color:rgba(255,255,255,0.45);font-size:10px;font-weight:600;padding:6px 2px;"><span style="font-size:18px">◉</span>Fin.</a>
+<a href="#" onclick="document.getElementById('mdr')&&document.getElementById('mdr').classList.add('open')" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;color:rgba(255,255,255,0.45);font-size:10px;font-weight:600;padding:6px 2px;"><span style="font-size:18px">☰</span>Menu</a>
+</nav>
+<script>
+function switchTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));const ts=['funil','alertas','indicadores','perdidos'];const i=ts.indexOf(t);if(i>=0)document.querySelectorAll('.tab')[i].classList.add('active');const e=document.getElementById('tab-'+t);if(e)e.classList.add('active');if(typeof render==='function')render();}
+
+
+  function switchTab(tab){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+    const tabs=['funil','alertas','indicadores','perdidos'];
+    const idx=tabs.indexOf(tab);
+    if(idx>=0) document.querySelectorAll('.tab')[idx].classList.add('active');
+    const el=document.getElementById('tab-'+tab);
+    if(el) el.classList.add('active');
+    render();
+  }
+
+  let leads    = JSON.parse(localStorage.getItem('allhair_leads')    || '[]');
+  let clientes = JSON.parse(localStorage.getItem('allhair_clientes') || '[]');
+  let socios   = JSON.parse(localStorage.getItem('allhair_socios')   || '[]');
+  let editId   = null;
+
+  const ETAPAS = [
+    {id:'prospeccao', label:'🎯 Prospecção',    cor:'var(--blue)',   bg:'var(--blue-light)'},
+    {id:'abordagem',  label:'📞 Abordagem',     cor:'var(--yellow)', bg:'var(--yellow-light)'},
+    {id:'amostra',    label:'📦 Amostra',       cor:'var(--purple)', bg:'var(--purple-light)'},
+    {id:'negociacao', label:'💬 Negociação',    cor:'var(--orange)', bg:'var(--orange-light)'},
+    {id:'fechado',    label:'✅ Fechado',        cor:'var(--green)',  bg:'var(--green-light)'},
+  ];
+
+  const TIPO_LABEL = {cosmeticos:'💄 Cosméticos',utilidades:'🏬 Utilidades',representacao:'🤝 Representação',salao:'💈 Salão',atacado:'🛒 Atacado',ecommerce:'🌐 E-commerce',industria:'🏭 Indústria',outro:'📦 Outro'};
+  const CANAL_LABEL= {ativo:'📣 Prospecção ativa',indicacao:'🤝 Indicação',representante:'👔 Representante',rede_social:'📱 Rede social',inbound:'📞 Inbound'};
+  const MOTIVO_PERDA=['💰 Preço alto','🏭 Concorrência','😐 Sem interesse','📦 Produto não adequado','🔇 Sem retorno','📍 Região não atendida','Outro'];
+
+  function save(){ localStorage.setItem('allhair_leads', JSON.stringify(leads)); }
+  function maskPhone(el){let v=el.value.replace(/\D/g,'').substring(0,11);if(v.length<=10)v=v.replace(/^(\d{2})(\d{4})(\d)/,'($1) $2-$3');else v=v.replace(/^(\d{2})(\d{5})(\d)/,'($1) $2-$3');el.value=v;}
+
+  const hoje = new Date();
+  const hojeStr = hoje.toISOString().split('T')[0];
+  function diasDesde(dt){if(!dt)return 999;return Math.ceil((new Date()-new Date(dt+' 00:00'))/(1000*60*60*24));}
+  function diasAte(dt){if(!dt)return 999;return Math.ceil((new Date(dt+' 00:00')-new Date())/(1000*60*60*24));}
+
+  
+
+  function respCor(resp){
+    const cols={caio:'#7c3aed',gabriel:'#e8197a',andre:'#2563eb',felipe:'#16a34a'};
+    const s=socios.find(x=>x.nome.toLowerCase()===resp?.toLowerCase());
+    return s?.cor||cols[resp?.toLowerCase()]||'#a090b0';
+  }
+
+  function render(){
+    renderKPIs();
+    renderFunil();
+    renderAlertas();
+    renderIndicadores();
+    renderPerdidos();
+  }
+
+  function renderKPIs(){
+    const ativos=leads.filter(l=>!['fechado','perdido'].includes(l.etapa));
+    const fechados=leads.filter(l=>l.etapa==='fechado');
+    const perdidos=leads.filter(l=>l.etapa==='perdido');
+    const total=ativos.length+fechados.length+perdidos.length;
+    const conversao=total>0?Math.round(fechados.length/total*100):0;
+    const followUpHoje=ativos.filter(l=>l.followup&&diasAte(l.followup)<=0).length;
+    const alertas=ativos.filter(l=>diasDesde(l.ultimoContato||l.data)>7).length;
+    document.getElementById('tc-funil').textContent=ativos.length;
+    document.getElementById('tc-alertas').textContent=alertas+followUpHoje;
+    document.getElementById('tc-perd').textContent=perdidos.length;
+    document.getElementById('kpi-grid').innerHTML=`
+      <div class="kpi k1"><div class="kpi-val">${ativos.length}</div><div class="kpi-label">🎯 Leads ativos</div></div>
+      <div class="kpi k2"><div class="kpi-val">${followUpHoje}</div><div class="kpi-label">📅 Follow-up hoje</div></div>
+      <div class="kpi k3"><div class="kpi-val">${conversao}%</div><div class="kpi-label">✅ Taxa de conversão</div><div class="kpi-sub">${fechados.length} fechados</div></div>
+      <div class="kpi k4"><div class="kpi-val">${fechados.length}</div><div class="kpi-label">✅ Fechados total</div></div>
+      <div class="kpi k5"><div class="kpi-val">${alertas}</div><div class="kpi-label">⚠️ Sem contato +7d</div></div>`;
+  }
+
+  function renderFunil(){
+    const board=document.getElementById('funil-board');
+    board.innerHTML=ETAPAS.filter(e=>e.id!=='fechado').map(etapa=>{
+      const cards=leads.filter(l=>l.etapa===etapa.id);
+      return `<div class="funil-col">
+        <div class="funil-header" style="color:${etapa.cor}">
+          ${etapa.label}
+          <span class="funil-count" style="background:${etapa.bg};color:${etapa.cor}">${cards.length}</span>
+        </div>
+        <div class="funil-cards">
+          ${cards.map(l=>leadCardHtml(l)).join('')}
+          ${!cards.length?`<div class="empty">Nenhum</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function leadCardHtml(l){
+    const dias=diasDesde(l.ultimoContato||l.data);
+    const diaClass=dias>14?'bad':dias>7?'warn':'ok';
+    const fuUp=l.followup?diasAte(l.followup):null;
+    return `<div class="lead-card" onclick="openDet('${l.id}')">
+      <div class="lead-card-top">
+        <div class="lead-nome">${l.nome}</div>
+        <span class="lead-tipo" style="background:var(--bg);color:var(--text2);border:1px solid var(--border)">${(TIPO_LABEL[l.tipo]||'').split(' ').slice(0,2).join(' ')}</span>
+      </div>
+      <div class="lead-info">${l.cidade||''}${l.contato?' · '+l.contato:''}</div>
+      ${fuUp!==null?`<div style="font-size:10px;font-weight:700;color:${fuUp<=0?'var(--red)':fuUp<=2?'var(--orange)':'var(--text3)'};margin-bottom:4px">📅 Follow-up: ${fuUp<=0?'Hoje/Atrasado':fuUp===1?'Amanhã':l.followup}</div>`:''}
+      <div class="lead-footer">
+        <span class="lead-dias ${diaClass}">${dias===0?'Hoje':dias+'d sem contato'}</span>
+        <div class="lead-resp"><div class="resp-dot" style="background:${respCor(l.resp)}">${(l.resp||'?').charAt(0).toUpperCase()}</div><span style="font-size:10px">${l.resp||'—'}</span></div>
+      </div>
+    </div>`;
+  }
+
+  function renderAlertas(){
+    const ativos=leads.filter(l=>!['fechado','perdido'].includes(l.etapa));
+    const semContato=ativos.filter(l=>diasDesde(l.ultimoContato||l.data)>7).sort((a,b)=>diasDesde(b.ultimoContato||b.data)-diasDesde(a.ultimoContato||a.data));
+    const fuUp=ativos.filter(l=>l.followup&&diasAte(l.followup)<=1).sort((a,b)=>new Date(a.followup)-new Date(b.followup));
+    const el=document.getElementById('alertas-wrap');
+    const empty=document.getElementById('empty-alertas');
+    if(!semContato.length&&!fuUp.length){el.innerHTML='';empty.style.display='block';return;}
+    empty.style.display='none';
+    let html='';
+    if(fuUp.length){
+      html+=`<div style="font-size:13px;font-weight:800;margin-bottom:10px">📅 Follow-up pendente</div>`;
+      html+=fuUp.map(l=>`<div class="alerta-row alerta-orange" style="cursor:pointer" onclick="openDet('${l.id}')">
+        <div style="flex:1"><strong>${l.nome}</strong> — ${l.cidade||''} · ${ETAPAS.find(e=>e.id===l.etapa)?.label||''}<br>
+        <span style="font-size:11px">Follow-up: ${l.followup?new Date(l.followup+' 00:00').toLocaleDateString('pt-BR'):'—'} · Resp: ${l.resp||'—'}</span></div>
+        <button class="btn-icon" onclick="event.stopPropagation();registrarContato('${l.id}')">📞 Registrar</button>
+      </div>`).join('');
+    }
+    if(semContato.length){
+      html+=`<div style="font-size:13px;font-weight:800;margin:14px 0 10px">⚠️ Sem contato há mais de 7 dias</div>`;
+      html+=semContato.map(l=>`<div class="alerta-row alerta-red" style="cursor:pointer" onclick="openDet('${l.id}')">
+        <div style="flex:1"><strong>${l.nome}</strong> — ${ETAPAS.find(e=>e.id===l.etapa)?.label||''}<br>
+        <span style="font-size:11px">Último contato: ${diasDesde(l.ultimoContato||l.data)} dias atrás · Resp: ${l.resp||'—'}</span></div>
+        <button class="btn-icon" onclick="event.stopPropagation();registrarContato('${l.id}')">📞 Registrar</button>
+      </div>`).join('');
+    }
+    el.innerHTML=html;
+  }
+
+  function renderIndicadores(){
+    const total=leads.length;
+    const fechados=leads.filter(l=>l.etapa==='fechado');
+    const perdidos=leads.filter(l=>l.etapa==='perdido');
+    const ativos=leads.filter(l=>!['fechado','perdido'].includes(l.etapa));
+
+    // Por tipo de negócio
+    const porTipo={};
+    leads.forEach(l=>{if(!porTipo[l.tipo])porTipo[l.tipo]={total:0,fechados:0};porTipo[l.tipo].total++;if(l.etapa==='fechado')porTipo[l.tipo].fechados++;});
+
+    // Por canal
+    const porCanal={};
+    leads.forEach(l=>{if(!porCanal[l.canal])porCanal[l.canal]={total:0,fechados:0};porCanal[l.canal].total++;if(l.etapa==='fechado')porCanal[l.canal].fechados++;});
+
+    // Por responsável
+    const porResp={};
+    leads.forEach(l=>{const r=l.resp||'?';if(!porResp[r])porResp[r]={total:0,fechados:0};porResp[r].total++;if(l.etapa==='fechado')porResp[r].fechados++;});
+
+    // Motivos de perda
+    const porMotivo={};
+    perdidos.forEach(l=>{const m=l.motivoPerda||'Não informado';if(!porMotivo[m])porMotivo[m]=0;porMotivo[m]++;});
+
+    // Tempo médio de fechamento
+    const tempos=fechados.filter(l=>l.data&&l.dataFechamento).map(l=>diasDesde(l.data)-(diasDesde(l.dataFechamento)||0));
+    const tempoMedio=tempos.length?Math.round(tempos.reduce((s,t)=>s+Math.abs(t),0)/tempos.length):0;
+
+    document.getElementById('ind-grid').innerHTML=`
+      <div class="ind-card">
+        <div class="ind-title">🏢 Conversão por Tipo de Negócio</div>
+        ${Object.entries(porTipo).sort((a,b)=>b[1].total-a[1].total).map(([tipo,d])=>{
+          const pct=d.total>0?Math.round(d.fechados/d.total*100):0;
+          return `<div class="ind-row">
+            <span class="ind-label">${TIPO_LABEL[tipo]||tipo}</span>
+            <div style="text-align:right"><span class="ind-val">${pct}%</span><div style="font-size:10px;color:var(--text3)">${d.fechados}/${d.total}</div></div>
+          </div>
+          <div class="bar-ind"><div class="bar-ind-fill" style="width:${pct}%;background:var(--purple)"></div></div>`;
+        }).join('')||'<div style="font-size:12px;color:var(--text3)">Sem dados</div>'}
+      </div>
+      <div class="ind-card">
+        <div class="ind-title">📣 Conversão por Canal</div>
+        ${Object.entries(porCanal).sort((a,b)=>b[1].total-a[1].total).map(([canal,d])=>{
+          const pct=d.total>0?Math.round(d.fechados/d.total*100):0;
+          return `<div class="ind-row">
+            <span class="ind-label">${CANAL_LABEL[canal]||canal}</span>
+            <div style="text-align:right"><span class="ind-val">${pct}%</span><div style="font-size:10px;color:var(--text3)">${d.fechados}/${d.total}</div></div>
+          </div>
+          <div class="bar-ind"><div class="bar-ind-fill" style="width:${pct}%;background:var(--pink)"></div></div>`;
+        }).join('')||'<div style="font-size:12px;color:var(--text3)">Sem dados</div>'}
+      </div>
+      <div class="ind-card">
+        <div class="ind-title">👤 Por Responsável</div>
+        ${Object.entries(porResp).sort((a,b)=>b[1].fechados-a[1].fechados).map(([resp,d])=>{
+          const pct=d.total>0?Math.round(d.fechados/d.total*100):0;
+          return `<div class="ind-row">
+            <span class="ind-label" style="display:flex;align-items:center;gap:5px"><span class="resp-dot" style="background:${respCor(resp)}">${resp.charAt(0).toUpperCase()}</span>${resp}</span>
+            <div style="text-align:right"><span class="ind-val">${pct}%</span><div style="font-size:10px;color:var(--text3)">${d.fechados}/${d.total}</div></div>
+          </div>
+          <div class="bar-ind"><div class="bar-ind-fill" style="width:${pct}%;background:${respCor(resp)}"></div></div>`;
+        }).join('')||'<div style="font-size:12px;color:var(--text3)">Sem dados</div>'}
+        <div class="ind-row" style="margin-top:8px"><span class="ind-label">⏱️ Tempo médio fechamento</span><span class="ind-val">${tempoMedio} dias</span></div>
+        <div class="ind-row"><span class="ind-label">❌ Motivo perda mais comum</span><span class="ind-val" style="font-size:11px">${Object.entries(porMotivo).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—'}</span></div>
+      </div>`;
+  }
+
+  function renderPerdidos(){
+    const p=leads.filter(l=>l.etapa==='perdido').sort((a,b)=>new Date(b.criadoEm)-new Date(a.criadoEm));
+    const el=document.getElementById('perdidos-wrap');
+    const empty=document.getElementById('empty-perdidos');
+    if(!p.length){el.innerHTML='';empty.style.display='block';return;}
+    empty.style.display='none';
+    el.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px">${p.map(l=>`
+      <div style="background:var(--white);border:1px solid var(--red-light);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:14px">
+        <span style="font-size:20px">❌</span>
+        <div style="flex:1">
+          <div style="font-weight:800">${l.nome}</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px">${TIPO_LABEL[l.tipo]||''} · ${CANAL_LABEL[l.canal]||''} · Resp: ${l.resp||'—'}</div>
+          ${l.motivoPerda?`<div style="font-size:11px;color:var(--red);margin-top:3px;font-weight:700">Motivo: ${l.motivoPerda}</div>`:''}
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn-icon ok" onclick="reabrirLead('${l.id}')">↩️ Reabrir</button>
+          <button class="btn-icon danger" onclick="delLead('${l.id}')">🗑️</button>
+        </div>
+      </div>`).join('')}</div>`;
+  }
+
+  // ===== MODAL LEAD =====
+  function openLead(id=null){
+    editId=id;
+    document.getElementById('lead-title').textContent=id?'Editar Lead':'Novo Lead';
+    ['l-nome','l-cidade','l-contato','l-wpp','l-obs'].forEach(k=>{document.getElementById(k).value='';});
+    document.getElementById('l-tipo').value='cosmeticos';
+    document.getElementById('l-canal').value='ativo';
+    document.getElementById('l-etapa').value='prospeccao';
+    document.getElementById('l-data').value=hojeStr;
+    document.getElementById('l-followup').value='';
+    document.getElementById('l-aviso-cliente').textContent='';
+    // Popula responsáveis
+    const sel=document.getElementById('l-resp');
+    sel.innerHTML='<option value="">— Selecionar —</option>';
+    const resps=socios.length?socios:[{nome:'Caio'},{nome:'Gabriel'},{nome:'André'},{nome:'Felipe'}];
+    resps.forEach(s=>{const o=document.createElement('option');o.value=s.nome.toLowerCase();o.textContent=s.nome;sel.appendChild(o);});
+    if(id){
+      const l=leads.find(x=>x.id===id);
+      if(l){
+        document.getElementById('l-nome').value=l.nome||'';
+        document.getElementById('l-tipo').value=l.tipo||'cosmeticos';
+        document.getElementById('l-canal').value=l.canal||'ativo';
+        document.getElementById('l-cidade').value=l.cidade||'';
+        document.getElementById('l-contato').value=l.contato||'';
+        document.getElementById('l-wpp').value=l.wpp||'';
+        document.getElementById('l-etapa').value=l.etapa||'prospeccao';
+        document.getElementById('l-data').value=l.data||hojeStr;
+        document.getElementById('l-followup').value=l.followup||'';
+        document.getElementById('l-obs').value=l.obs||'';
+        sel.value=l.resp||'';
+      }
+    }
+    // Alerta de duplicata
+    document.getElementById('l-nome').addEventListener('input',checkDuplicata);
+    document.getElementById('overlay-lead').classList.add('open');
+  }
+  function closeLead(){document.getElementById('overlay-lead').classList.remove('open');editId=null;}
+
+  function checkDuplicata(){
+    const nome=document.getElementById('l-nome').value.trim().toLowerCase();
+    const aviso=document.getElementById('l-aviso-cliente');
+    if(!nome){aviso.textContent='';return;}
+    const jaCliente=clientes.find(c=>c.nome?.toLowerCase().includes(nome)||nome.includes(c.nome?.toLowerCase()||'x'));
+    const jaLead=leads.find(l=>l.id!==editId&&l.nome?.toLowerCase().includes(nome));
+    if(jaCliente) aviso.textContent='⚠️ Esta empresa já é cliente ativo!';
+    else if(jaLead) aviso.textContent='⚠️ Já existe um lead com este nome.';
+    else aviso.textContent='';
+  }
+
+  function salvarLead(){
+    const nome=document.getElementById('l-nome').value.trim();
+    if(!nome){alert('Nome obrigatório!');return;}
+    const data={
+      nome, tipo:document.getElementById('l-tipo').value,
+      canal:document.getElementById('l-canal').value,
+      cidade:document.getElementById('l-cidade').value,
+      contato:document.getElementById('l-contato').value,
+      wpp:document.getElementById('l-wpp').value,
+      resp:document.getElementById('l-resp').value,
+      etapa:document.getElementById('l-etapa').value,
+      data:document.getElementById('l-data').value,
+      followup:document.getElementById('l-followup').value,
+      obs:document.getElementById('l-obs').value,
+      ultimoContato:document.getElementById('l-data').value,
+      historico:[{data:document.getElementById('l-data').value,tipo:'Abertura',texto:document.getElementById('l-obs').value||'Lead criado'}],
+    };
+    if(editId){const idx=leads.findIndex(x=>x.id===editId);data.id=editId;data.historico=leads[idx].historico||data.historico;leads[idx]=data;}
+    else{data.id='ld_'+Date.now();data.criadoEm=new Date().toLocaleString('pt-BR');leads.push(data);}
+    save();render();closeLead();
+  }
+
+  // ===== DETALHE =====
+  function openDet(id){
+    const l=leads.find(x=>x.id===id);if(!l)return;
+    document.getElementById('det-nome').textContent=l.nome;
+    const etapa=ETAPAS.find(e=>e.id===l.etapa);
+    document.getElementById('det-badges').innerHTML=`
+      <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:${etapa?.bg||'var(--bg)'};color:${etapa?.cor||'var(--text2)'}">${etapa?.label||l.etapa}</span>
+      <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--bg);border:1px solid var(--border)">${TIPO_LABEL[l.tipo]||l.tipo}</span>
+      <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--bg);border:1px solid var(--border)">${CANAL_LABEL[l.canal]||l.canal}</span>`;
+    document.getElementById('det-body').innerHTML=`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+        <div style="background:var(--bg);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px"><div style="color:var(--text2);font-weight:600">📍 Cidade</div><div style="font-weight:700">${l.cidade||'—'}</div></div>
+        <div style="background:var(--bg);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px"><div style="color:var(--text2);font-weight:600">👤 Contato</div><div style="font-weight:700">${l.contato||'—'}</div></div>
+        <div style="background:var(--bg);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px"><div style="color:var(--text2);font-weight:600">📱 WhatsApp</div><div style="font-weight:700">${l.wpp||'—'}</div></div>
+        <div style="background:var(--bg);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px"><div style="color:var(--text2);font-weight:600">👷 Responsável</div><div style="font-weight:700;display:flex;align-items:center;gap:5px"><div class="resp-dot" style="background:${respCor(l.resp)}">${(l.resp||'?').charAt(0).toUpperCase()}</div>${l.resp||'—'}</div></div>
+        ${l.followup?`<div style="background:${diasAte(l.followup)<=0?'var(--red-light)':'var(--yellow-light)'};border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;grid-column:1/-1"><div style="color:var(--text2);font-weight:600">📅 Próximo follow-up</div><div style="font-weight:700;color:${diasAte(l.followup)<=0?'var(--red)':'#92400e'}">${new Date(l.followup+' 00:00').toLocaleDateString('pt-BR')} ${diasAte(l.followup)<=0?'(ATRASADO)':''}</div></div>`:''}
+      </div>
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:8px">Avançar para</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+        ${ETAPAS.filter(e=>e.id!==l.etapa&&e.id!=='fechado').map(e=>`<button class="btn-icon" onclick="mudarEtapa('${l.id}','${e.id}')" style="border-color:${e.cor};color:${e.cor}">${e.label}</button>`).join('')}
+        <button class="btn-icon ok" onclick="fecharLead('${l.id}')">✅ Fechar como Cliente</button>
+      </div>
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--pink);margin-bottom:8px">📞 Registrar Contato</div>
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <select id="det-tipo-contato" style="background:var(--bg);border:1.5px solid var(--border2);padding:8px;border-radius:var(--radius-sm);font-family:inherit;font-size:12px;outline:none;flex:1">
+          <option value="Ligação">📞 Ligação</option><option value="WhatsApp">💬 WhatsApp</option>
+          <option value="Visita">🏢 Visita</option><option value="Email">📧 Email</option>
+          <option value="Amostra enviada">📦 Amostra enviada</option>
+        </select>
+        <input type="date" id="det-followup" value="${new Date(Date.now()+7*86400000).toISOString().split('T')[0]}" style="background:var(--bg);border:1.5px solid var(--border2);padding:8px;border-radius:var(--radius-sm);font-family:inherit;font-size:12px;outline:none;">
+      </div>
+      <textarea id="det-contato-txt" placeholder="O que aconteceu? O que ficou combinado?" rows="2" style="width:100%;background:var(--bg);border:1.5px solid var(--border2);padding:8px 12px;border-radius:var(--radius-sm);font-family:inherit;font-size:13px;outline:none;resize:vertical;margin-bottom:10px"></textarea>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="salvarContato('${l.id}')">💬 Registrar Contato</button>
+      <div style="margin-top:16px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:8px">Histórico</div>
+      <div style="max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:5px">
+        ${(l.historico||[]).slice().reverse().map(h=>`<div class="contato-row">
+          <span class="contato-data">${h.data?new Date(h.data+' 00:00').toLocaleDateString('pt-BR'):'—'}</span>
+          <span class="contato-tipo-badge" style="background:var(--bg);border:1px solid var(--border)">${h.tipo}</span>
+          <span class="contato-txt">${h.texto}</span>
+        </div>`).join('')}
+      </div>`;
+    document.getElementById('det-footer').innerHTML=`
+      <div style="display:flex;gap:6px">
+        <button class="btn-icon danger" onclick="marcarPerdido('${l.id}')">❌ Perdido</button>
+        <button class="btn-icon" onclick="closeDet();openLead('${l.id}')">✏️ Editar</button>
+      </div>
+      <button class="btn-cancel" onclick="closeDet()">Fechar</button>`;
+    document.getElementById('overlay-det').classList.add('open');
+  }
+  function closeDet(){document.getElementById('overlay-det').classList.remove('open');}
+
+  function salvarContato(id){
+    const l=leads.find(x=>x.id===id);if(!l)return;
+    const tipo=document.getElementById('det-tipo-contato').value;
+    const txt=document.getElementById('det-contato-txt').value.trim();
+    const fuUp=document.getElementById('det-followup').value;
+    if(!txt){alert('Descreva o contato!');return;}
+    if(!l.historico)l.historico=[];
+    l.historico.push({data:hojeStr,tipo,texto:txt});
+    l.ultimoContato=hojeStr;
+    if(fuUp)l.followup=fuUp;
+    save();closeDet();openDet(id);render();
+  }
+
+  function mudarEtapa(id,etapa){
+    const l=leads.find(x=>x.id===id);if(!l)return;
+    l.etapa=etapa;
+    if(!l.historico)l.historico=[];
+    l.historico.push({data:hojeStr,tipo:'Etapa',texto:`Avançou para: ${ETAPAS.find(e=>e.id===etapa)?.label||etapa}`});
+    save();closeDet();render();
+  }
+
+  function fecharLead(id){
+    const l=leads.find(x=>x.id===id);if(!l)return;
+    if(!confirm(`Fechar ${l.nome} como cliente?\nEle será adicionado na lista de Clientes.`))return;
+    l.etapa='fechado';l.dataFechamento=hojeStr;
+    // Adiciona aos clientes automaticamente
+    const novoCli={id:'cli_'+Date.now(),nome:l.nome,telefone:l.wpp,cidade:l.cidade,responsavel:l.resp,status:'ativo',criadoEm:new Date().toLocaleString('pt-BR'),origemCRM:true};
+    clientes.push(novoCli);
+    localStorage.setItem('allhair_clientes',JSON.stringify(clientes));
+    if(!l.historico)l.historico=[];
+    l.historico.push({data:hojeStr,tipo:'Fechamento',texto:'Lead convertido em cliente!'});
+    save();closeDet();render();
+    alert(`🎉 ${l.nome} adicionado como cliente!`);
+  }
+
+  function marcarPerdido(id){
+    const motivo=prompt(`Motivo da perda de ${leads.find(x=>x.id===id)?.nome}?\n\n${MOTIVO_PERDA.map((m,i)=>`${i+1}. ${m}`).join('\n')}\n\nDigite o número ou o motivo:`);
+    if(motivo===null)return;
+    const l=leads.find(x=>x.id===id);if(!l)return;
+    const num=parseInt(motivo);
+    l.motivoPerda=num>=1&&num<=MOTIVO_PERDA.length?MOTIVO_PERDA[num-1]:motivo||'Não informado';
+    l.etapa='perdido';
+    if(!l.historico)l.historico=[];
+    l.historico.push({data:hojeStr,tipo:'Perda',texto:'Marcado como perdido. Motivo: '+l.motivoPerda});
+    save();closeDet();render();
+  }
+
+  function registrarContato(id){openDet(id);}
+  function reabrirLead(id){const l=leads.find(x=>x.id===id);if(!l)return;l.etapa='prospeccao';delete l.motivoPerda;save();render();}
+  function delLead(id){if(!confirm('Excluir?'))return;leads=leads.filter(x=>x.id!==id);save();render();}
+
+  render();
+
+
+</script>
+</body>
+</html>

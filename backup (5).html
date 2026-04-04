@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALL HAIR — Backup</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+:root {
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
+  --accent: #f59e0b;
+  --accent2: #3b82f6;
+  --sidebar: #0f172a;
+  --text: #0f172a;
+  --text2: #64748b;
+  --text3: #94a3b8;
+  --green: #10b981;
+  --green-light: #d1fae5;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --orange: #f97316;
+  --orange-light: #ffedd5;
+  --blue: #3b82f6;
+  --blue-light: #dbeafe;
+  --yellow: #f59e0b;
+  --yellow-light: #fef3c7;
+  --pink: #ec4899;
+  --pink-light: #fce7f3;
+  --purple: #8b5cf6;
+  --purple-light: #ede9fe;
+  --teal: #14b8a6;
+  --teal-light: #ccfbf1;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 240px;
+  background: var(--sidebar);
+  display: flex; flex-direction: column;
+  z-index: 200;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+.sb-header {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex; align-items: center; gap: 12px;
+}
+.sb-header img { height: 38px; width: auto; object-fit: contain; }
+.sb-brand { display: flex; flex-direction: column; }
+.sb-brand-name { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: -.3px; }
+.sb-brand-sub { font-size: 11px; color: rgba(255,255,255,0.3); font-weight: 400; margin-top: 1px; }
+.sb-nav { flex: 1; padding: 12px 10px; display: flex; flex-direction: column; gap: 1px; overflow-y: auto; }
+.sb-nav::-webkit-scrollbar { width: 4px; }
+.sb-nav::-webkit-scrollbar-track { background: transparent; }
+.sb-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+.sb-section { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.25); letter-spacing: 1px; text-transform: uppercase; padding: 14px 12px 5px; }
+.sb-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px;
+  color: rgba(255,255,255,0.45);
+  font-size: 13.5px; font-weight: 500;
+  text-decoration: none;
+  transition: all .15s;
+}
+.sb-link:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.85); }
+.sb-link.active {
+  background: rgba(245,158,11,0.15);
+  color: #fbbf24;
+  border-left: 3px solid #f59e0b;
+  padding-left: 9px;
+}
+.sb-icon { width: 20px; text-align: center; font-size: 15px; flex-shrink: 0; opacity: .7; }
+.sb-link.active .sb-icon { opacity: 1; }
+.sb-footer {
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.sb-user {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+}
+.sb-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: linear-gradient(135deg,#f59e0b,#ec4899);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.sb-user-info { flex: 1; min-width: 0; }
+.sb-user-name { font-size: 13px; font-weight: 600; color: #fff; }
+.sb-user-status { font-size: 10px; color: rgba(255,255,255,0.3); display: flex; align-items: center; gap: 4px; }
+.sb-user-status::before { content: ''; width: 6px; height: 6px; background: #10b981; border-radius: 50%; display: inline-block; }
+.sb-time-box { text-align: center; }
+.sb-time { font-size: 22px; font-weight: 700; color: #fff; font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+.sb-date-text { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
+/* ─── MAIN ─── */
+.main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: var(--shadow);
+}
+.tb-left { display: flex; align-items: center; gap: 8px; }
+.tb-back { color: var(--text3); text-decoration: none; font-size: 13px; font-weight: 500; }
+.tb-back:hover { color: var(--text2); }
+.tb-sep { color: var(--border2); }
+.tb-title { font-size: 16px; font-weight: 700; color: var(--text); }
+.tb-right { display: flex; align-items: center; gap: 12px; }
+.tb-datetime { text-align: right; }
+.tb-time { font-size: 15px; font-weight: 700; color: var(--text); font-family: 'DM Mono', monospace; }
+.tb-date { font-size: 11px; color: var(--text3); font-weight: 400; }
+.page-content { padding: 24px 28px; flex: 1; }
+
+/* ─── COMPONENTS ─── */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  cursor: pointer; border: none; transition: all .15s;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(245,158,11,0.35); }
+.btn-primary:hover { background: #e08d00; transform: translateY(-1px); }
+.btn-secondary { background: var(--white); color: var(--text2); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-success { background: var(--green); color: #fff; }
+.btn-success:hover { background: #059669; }
+.btn-sm { padding: 6px 12px; font-size: 12.5px; }
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.card-body { padding: 20px; }
+.card-link { font-size: 12.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+.card-link:hover { color: #e08d00; }
+
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 600;
+}
+.badge-green { background: var(--green-light); color: #059669; }
+.badge-red { background: var(--red-light); color: #dc2626; }
+.badge-orange { background: var(--orange-light); color: #ea580c; }
+.badge-yellow { background: var(--yellow-light); color: #d97706; }
+.badge-blue { background: var(--blue-light); color: #2563eb; }
+.badge-gray { background: #f1f5f9; color: #64748b; }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 12px; font-weight: 600; color: var(--text2); }
+.field input, .field select, .field textarea {
+  background: #f8fafc; border: 1.5px solid var(--border);
+  color: var(--text); padding: 9px 13px;
+  border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 13.5px; font-weight: 400;
+  outline: none; transition: all .15s; width: 100%;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--accent); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+}
+.field textarea { resize: vertical; min-height: 70px; }
+.field-hint { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-full { grid-column: 1/-1; }
+
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .8px;
+  text-transform: uppercase; color: var(--accent);
+  margin: 20px 0 12px; padding-bottom: 8px;
+  border-bottom: 2px solid #fef3c7;
+}
+.section-label:first-child { margin-top: 0; }
+
+table { width: 100%; border-collapse: collapse; }
+th {
+  padding: 10px 16px; text-align: left;
+  font-size: 11px; font-weight: 600; letter-spacing: .5px;
+  text-transform: uppercase; color: var(--text3);
+  background: #f8fafc; border-bottom: 1px solid var(--border);
+}
+td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13.5px; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: #fffbeb; }
+
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,23,42,0.6); backdrop-filter: blur(4px);
+  z-index: 300; display: none; align-items: flex-start;
+  justify-content: center; padding: 24px 16px; overflow-y: auto;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; width: 100%; max-width: 560px;
+  animation: slideUp .2s ease; margin: auto;
+  box-shadow: var(--shadow-lg);
+}
+@keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.modal-header {
+  padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; background: var(--white); z-index: 10;
+}
+.modal-header h2 { font-size: 17px; font-weight: 700; }
+.modal-close {
+  width: 32px; height: 32px; background: #f1f5f9;
+  border: 1px solid var(--border); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--text2); cursor: pointer;
+}
+.modal-close:hover { background: var(--red-light); border-color: var(--red); color: var(--red); }
+.modal-body { padding: 22px 24px; }
+.modal-footer {
+  padding: 16px 24px; border-top: 1px solid var(--border);
+  display: flex; justify-content: flex-end; gap: 10px;
+  background: #f8fafc; border-radius: 0 0 16px 16px;
+}
+
+.tabs-bar {
+  display: flex; gap: 2px; padding: 0 28px;
+  background: var(--white); border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.tab {
+  padding: 13px 16px; font-size: 13px; font-weight: 600;
+  color: var(--text2); border-bottom: 3px solid transparent;
+  margin-bottom: -1px; cursor: pointer; white-space: nowrap;
+  transition: all .15s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+main { padding: 24px 28px; }
+.topbar-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.page-title { font-size: 21px; font-weight: 700; letter-spacing: -.5px; }
+.spacer { flex: 1; }
+.empty { padding: 48px; text-align: center; color: var(--text3); font-size: 13px; }
+
+/* TABS content */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+@media(max-width:900px) {
+  .sidebar { width: 56px; }
+  .sb-header .sb-brand, .sb-section, .sb-link span:not(.sb-icon),
+  .sb-footer .sb-user-info, .sb-date-text, .sb-brand-sub { display: none; }
+  .sb-header { padding: 14px 8px; justify-content: center; }
+  .sb-link { padding: 9px; justify-content: center; }
+  .sb-icon { margin: 0; }
+  .sb-user { justify-content: center; }
+  .sb-user-info { display: none; }
+  .sb-time { font-size: 13px; }
+  .main { margin-left: 56px; }
+  .page-content, main { padding: 16px; }
+  .topbar { padding: 0 16px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .tabs-bar { padding: 0 16px; }
+}
+
+
+@media(max-width:768px){.sidebar{display:none!important;}.main{margin-left:0!important;padding-bottom:70px;}#mn{display:flex!important;}.topbar{padding:0 14px!important;height:52px!important;}.tb-datetime{display:none!important;}.page-content,main{padding:14px!important;}.form-grid{grid-template-columns:1fr!important;}}
+@media(min-width:769px){#mn{display:none!important;}}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sb-header">
+    <img src="./logo.png" alt="ALL HAIR">
+    <div class="sb-brand">
+      <span class="sb-brand-name">ALL HAIR</span>
+      <span class="sb-brand-sub">Gestão Industrial</span>
+    </div>
+  </div>
+  <nav class="sb-nav"><div class="sb-section">Principal</div><a class="sb-link" href="dashboard.html"><span class="sb-icon">⊞</span><span>Início</span></a><a class="sb-link" href="pedidos.html"><span class="sb-icon">◫</span><span>Pedidos</span></a><a class="sb-link" href="producao.html"><span class="sb-icon">◈</span><span>Produção</span></a><a class="sb-link" href="estoque.html"><span class="sb-icon">◧</span><span>Estoque</span></a><a class="sb-link" href="financeiro.html"><span class="sb-icon">◉</span><span>Financeiro</span></a><a class="sb-link" href="socios.html"><span class="sb-icon">◎</span><span>Sócios</span></a><div class="sb-section">Vendas</div><a class="sb-link" href="crm.html"><span class="sb-icon">◐</span><span>CRM</span></a><a class="sb-link" href="clientes.html"><span class="sb-icon">◑</span><span>Clientes</span></a><a class="sb-link" href="representantes.html"><span class="sb-icon">◒</span><span>Representantes</span></a><div class="sb-section">Cadastros</div><a class="sb-link" href="fornecedores.html"><span class="sb-icon">◓</span><span>Fornecedores</span></a><a class="sb-link" href="produtos.html"><span class="sb-icon">◔</span><span>Produtos</span></a><div class="sb-section">Sistema</div><a class="sb-link" href="melhorias.html"><span class="sb-icon">◕</span><span>Melhorias</span></a><a class="sb-link" href="configuracoes.html"><span class="sb-icon">◖</span><span>Config</span></a><a class="sb-link" href="empresa.html"><span class="sb-icon">◗</span><span>Empresa</span></a><a class="sb-link active" href="backup.html"><span class="sb-icon">◘</span><span>Backup</span></a><a class="sb-link" href="login.html" onclick="localStorage.removeItem('allhair_sessao')"><span class="sb-icon">→</span><span>Sair</span></a></nav>
+  <div class="sb-footer">
+    <div class="sb-user" id="sb-user"></div>
+    <div class="sb-time-box">
+      <div class="sb-time" id="sb-time">--:--:--</div>
+      <div class="sb-date-text" id="sb-date"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const sess=JSON.parse(localStorage.getItem('allhair_sessao')||'{}');
+  if(!sess.userId&&!location.pathname.includes('login')){location.href='login.html';return;}
+  const u=document.getElementById('sb-user');
+  if(u&&sess.nome)u.innerHTML=`<div class="sb-avatar">${sess.nome[0]}</div><div class="sb-user-info"><div class="sb-user-name">${sess.nome}</div><div class="sb-user-status">Online</div></div>`;
+  function tick(){
+    const n=new Date();
+    const t=document.getElementById('sb-time');
+    const d=document.getElementById('sb-date');
+    const tb=document.getElementById('tb-time');
+    const td=document.getElementById('tb-date');
+    if(t)t.textContent=n.toLocaleTimeString('pt-BR');
+    if(d)d.textContent=n.toLocaleDateString('pt-BR',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+    if(tb)tb.textContent=n.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    if(td)td.textContent=n.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    setTimeout(tick,1000);
+  }
+  tick();
+})();
+</script>
+<div class="main">
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-title">Backup</div>
+  </div>
+  <div class="tb-right">
+    <div class="tb-datetime">
+      <div class="tb-time" id="tb-time">--:--</div>
+      <div class="tb-date" id="tb-date"></div>
+    </div>
+  </div>
+</div>
+<div class="page-content">
+<div class="tabs-bar">
+  <div class="tab active" onclick="switchTab('backup')">Backup</div>
+</div>
+<div class="tab-content active" id="tab-backup"><main>
+  <div class="topbar-actions" style="margin-bottom:16px"><div class="page-title">Backup dos Dados</div></div>
+  <div style="background:var(--yellow-light);border:1px solid var(--yellow);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;font-weight:600;color:#92400e;margin-bottom:16px">
+    Faca backup regularmente. Se o navegador for limpo, os dados podem ser perdidos.
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px" id="stats-backup"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="card card-body">
+      <div style="font-size:15px;font-weight:800;margin-bottom:8px">Exportar Backup</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">Gera um arquivo .json com todos os dados do sistema.</div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="exportar()">Baixar Backup Completo</button>
+    </div>
+    <div class="card card-body">
+      <div style="font-size:15px;font-weight:800;margin-bottom:8px">Importar Backup</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">Restaura todos os dados de um backup anterior.</div>
+      <label style="display:block;border:2px dashed var(--border2);border-radius:var(--radius-sm);padding:20px;text-align:center;cursor:pointer;">
+        <input type="file" id="arquivo-backup" accept=".json" onchange="importar(this)" style="display:none">
+        <div style="font-size:13px;font-weight:700">Clique para selecionar o arquivo</div>
+      </label>
+    </div>
+  </div>
+</main></div>
+
+</div>
+</div>
+<nav id="mn" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid rgba(255,255,255,0.08);z-index:200;padding:6px 0;">
+  <a href="dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(255,255,255,0.45);font-size:10px;font-weight:600;padding:6px 4px;"><span style="font-size:18px">⊞</span><span>Inicio</span></a>
+  <a href="pedidos.html" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(255,255,255,0.45);font-size:10px;font-weight:600;padding:6px 4px;"><span style="font-size:18px">◫</span><span>Pedidos</span></a>
+  <a href="producao.html" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(255,255,255,0.45);font-size:10px;font-weight:600;padding:6px 4px;"><span style="font-size:18px">◈</span><span>Prod.</span></a>
+  <a href="financeiro.html" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(255,255,255,0.45);font-size:10px;font-weight:600;padding:6px 4px;"><span style="font-size:18px">◉</span><span>Fin.</span></a>
+  <a href="#" onclick="document.getElementById('mdr').classList.add('open')" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(255,255,255,0.45);font-size:10px;font-weight:600;padding:6px 4px;"><span style="font-size:18px">☰</span><span>Menu</span></a>
+</nav>
+<script>
+function switchTab(tab){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));const tabs=['backup'];const idx=tabs.indexOf(tab);if(idx>=0)document.querySelectorAll('.tab')[idx].classList.add('active');const el=document.getElementById('tab-'+tab);if(el)el.classList.add('active');if(typeof render==='function')render();}
+
+
+  const CHAVES = [
+    'allhair_pedidos','allhair_clientes','allhair_fornecedores2','allhair_compras',
+    'allhair_produtos','allhair_cores','allhair_embalagens','allhair_etiquetas',
+    'allhair_producoes2','allhair_envios_v2','allhair_faccionistas',
+    'allhair_estoque_v2','allhair_movimentos','allhair_reservas',
+    'allhair_recebimentos','allhair_pagamentos','allhair_despesas',
+    'allhair_representantes','allhair_comissoes',
+    'allhair_socios','allhair_socios_mov',
+    'allhair_leads','allhair_melhorias','allhair_config',
+    'allhair_transportadoras','allhair_entregas','allhair_cortes',
+    'allhair_usuarios','allhair_pins'
+  ];
+
+  function renderStats(){
+    const peds=JSON.parse(localStorage.getItem('allhair_pedidos')||'[]').length;
+    const clis=JSON.parse(localStorage.getItem('allhair_clientes')||'[]').length;
+    const prods=JSON.parse(localStorage.getItem('allhair_produtos')||'[]').length;
+    const forn=JSON.parse(localStorage.getItem('allhair_fornecedores2')||'[]').length;
+    const leads=JSON.parse(localStorage.getItem('allhair_leads')||'[]').length;
+    const pags=JSON.parse(localStorage.getItem('allhair_pagamentos')||'[]').length;
+    // Tamanho total
+    let totalBytes=0;
+    CHAVES.forEach(k=>{const v=localStorage.getItem(k)||'';totalBytes+=v.length;});
+    const kb=(totalBytes/1024).toFixed(1);
+    document.getElementById('stats-backup').innerHTML=`
+      <div class="stat-b"><div class="stat-b-num">${peds}</div><div class="stat-b-label">Pedidos</div></div>
+      <div class="stat-b"><div class="stat-b-num">${clis}</div><div class="stat-b-label">Clientes</div></div>
+      <div class="stat-b"><div class="stat-b-num">${prods}</div><div class="stat-b-label">Produtos</div></div>
+      <div class="stat-b"><div class="stat-b-num">${forn}</div><div class="stat-b-label">Fornecedores</div></div>
+      <div class="stat-b"><div class="stat-b-num">${leads}</div><div class="stat-b-label">Leads CRM</div></div>
+      <div class="stat-b"><div class="stat-b-num">${kb}kb</div><div class="stat-b-label">Tamanho total</div></div>`;
+  }
+
+  function exportar(){
+    const backup={versao:'1.0',exportadoEm:new Date().toLocaleString('pt-BR'),dados:{}};
+    CHAVES.forEach(k=>{const v=localStorage.getItem(k);if(v)backup.dados[k]=JSON.parse(v);});
+    const json=JSON.stringify(backup,null,2);
+    const blob=new Blob([json],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    const data=new Date().toISOString().split('T')[0];
+    a.href=url;a.download=`allhair_backup_${data}.json`;a.click();
+    URL.revokeObjectURL(url);
+    document.getElementById('sucesso-exp').style.display='block';
+    setTimeout(()=>document.getElementById('sucesso-exp').style.display='none',3000);
+  }
+
+  function importar(input){
+    const file=input.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+      try{
+        const backup=JSON.parse(e.target.result);
+        if(!backup.dados){alert('Arquivo inválido!');return;}
+        if(!confirm(`Importar backup de ${backup.exportadoEm}?\n\n⚠️ TODOS os dados atuais serão substituídos.\n\nTem certeza?`))return;
+        Object.entries(backup.dados).forEach(([k,v])=>localStorage.setItem(k,JSON.stringify(v)));
+        document.getElementById('sucesso-imp').style.display='block';
+        setTimeout(()=>window.location.href='dashboard.html',2000);
+      }catch(err){alert('Erro ao ler o arquivo. Verifique se é um backup válido do ALL HAIR.');}
+    };
+    reader.readAsText(file);
+  }
+
+  function limpar(){
+    if(!confirm('⚠️ ATENÇÃO!\n\nIsto vai apagar TODOS os dados permanentemente.\n\nTem certeza absoluta?'))return;
+    if(!confirm('Última confirmação — isso não tem volta.\n\nContinuar?'))return;
+    CHAVES.forEach(k=>localStorage.removeItem(k));
+    alert('Dados apagados.');
+    window.location.href='dashboard.html';
+  }
+
+  renderStats();
+
+</script>
+</body>
+</html>
